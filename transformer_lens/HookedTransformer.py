@@ -142,14 +142,14 @@ class HookedTransformer(HookedRootModule):
                 # should be False
                 if "phi" in self.cfg.tokenizer_name.lower():
                     use_fast = False
-                huggingface_token = os.environ.get("HF_TOKEN", None)
+                # huggingface_token = os.environ.get("HF_TOKEN", None)
                 self.set_tokenizer(
                     AutoTokenizer.from_pretrained(
                         self.cfg.tokenizer_name,
                         add_bos_token=True,
                         trust_remote_code=self.cfg.trust_remote_code,
                         use_fast=use_fast,
-                        token=huggingface_token,
+                        # token=huggingface_token,
                     ),
                     default_padding_side=default_padding_side,
                 )
@@ -371,8 +371,7 @@ class HookedTransformer(HookedRootModule):
         attention_mask: Optional[torch.Tensor] = None,  # [batch pos]
         stop_at_layer: Optional[int] = None,
         past_kv_cache: Optional[HookedTransformerKeyValueCache] = None,
-    ) -> Loss:
-        ...
+    ) -> Loss: ...
 
     @overload
     def forward(
@@ -388,8 +387,7 @@ class HookedTransformer(HookedRootModule):
         attention_mask: Optional[torch.Tensor] = None,  # [batch pos]
         stop_at_layer: Optional[int] = None,
         past_kv_cache: Optional[HookedTransformerKeyValueCache] = None,
-    ) -> Loss:
-        ...
+    ) -> Loss: ...
 
     @overload
     def forward(
@@ -405,8 +403,7 @@ class HookedTransformer(HookedRootModule):
         attention_mask: Optional[torch.Tensor] = None,  # [batch pos]
         stop_at_layer: Optional[int] = None,
         past_kv_cache: Optional[HookedTransformerKeyValueCache] = None,
-    ) -> Tuple[Float[torch.Tensor, "batch pos d_vocab"], Loss]:
-        ...
+    ) -> Tuple[Float[torch.Tensor, "batch pos d_vocab"], Loss]: ...
 
     @overload
     def forward(
@@ -422,8 +419,7 @@ class HookedTransformer(HookedRootModule):
         attention_mask: Optional[torch.Tensor] = None,  # [batch pos]
         stop_at_layer: Optional[int] = None,
         past_kv_cache: Optional[HookedTransformerKeyValueCache] = None,
-    ) -> None:
-        ...
+    ) -> None: ...
 
     def forward(
         self,
@@ -598,14 +594,12 @@ class HookedTransformer(HookedRootModule):
     @overload
     def run_with_cache(
         self, *model_args, return_cache_object: Literal[True] = True, **kwargs
-    ) -> Tuple[Output, ActivationCache]:
-        ...
+    ) -> Tuple[Output, ActivationCache]: ...
 
     @overload
     def run_with_cache(
         self, *model_args, return_cache_object: Literal[False], **kwargs
-    ) -> Tuple[Output, Dict[str, torch.Tensor]]:
-        ...
+    ) -> Tuple[Output, Dict[str, torch.Tensor]]: ...
 
     def run_with_cache(
         self, *model_args, return_cache_object=True, remove_batch_dim=False, **kwargs
