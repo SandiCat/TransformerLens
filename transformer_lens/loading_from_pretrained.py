@@ -661,10 +661,10 @@ def convert_hf_model_config(model_name: str, **kwargs):
     elif "gemma" in official_model_name.lower():
         architecture = "GemmaForCausalLM"
     else:
-        huggingface_token = os.environ.get("HF_TOKEN", None)
+        # huggingface_token = os.environ.get("HF_TOKEN", None)
         hf_config = AutoConfig.from_pretrained(
             official_model_name,
-            token=huggingface_token,
+            # token=huggingface_token,
             **kwargs,
         )
         architecture = hf_config.architectures[0]
@@ -1449,7 +1449,7 @@ def get_pretrained_state_dict(
             else:
                 raise ValueError(f"Checkpoints for model {official_model_name} are not supported")
         elif hf_model is None:
-            huggingface_token = os.environ.get("HF_TOKEN", None)
+            # huggingface_token = os.environ.get("HF_TOKEN", None)
             if official_model_name in NON_HF_HOSTED_MODEL_NAMES:
                 raise NotImplementedError("Model not hosted on HuggingFace, must pass in hf_model")
             elif "bert" in official_model_name:
@@ -1463,7 +1463,7 @@ def get_pretrained_state_dict(
                 hf_model = AutoModelForCausalLM.from_pretrained(
                     official_model_name,
                     torch_dtype=dtype,
-                    token=huggingface_token,
+                    # token=huggingface_token,
                     **kwargs,
                 )
 
